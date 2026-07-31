@@ -1,0 +1,316 @@
+<%- include("../partials/head") %>
+    <%- include("../partials/navbar") %>
+
+
+        <!-- ===== PAGE WRAPPER ===== -->
+        <div
+            class="min-h-screen bg-gradient-to-br from-rose-50 via-white to-pink-50 py-8 px-4 sm:px-6 lg:px-8 flex items-start justify-center">
+
+            <!-- ===== MAIN CONTAINER ===== -->
+            <div class="w-full max-w-5xl">
+
+                <!-- ===== HEADER SECTION ===== -->
+                <div class="text-center mb-8 md:mb-10">
+                    <!-- Icon row -->
+                    <div class="flex justify-center items-center gap-3 text-rose-600 text-3xl md:text-4xl mb-2">
+                        <i class="fa-solid fa-hand-holding-droplet"></i>
+                    </div>
+
+                    <!-- Title -->
+                    <h1 class="text-3xl md:text-4xl font-extrabold text-rose-700 tracking-tight">
+                        Request Blood
+                    </h1>
+
+                    <!-- Subtitle -->
+                    <p class="text-gray-600 text-sm md:text-base mt-2 max-w-xl mx-auto">
+                        Need blood urgently? Submit a request and connect with potential donors.
+                    </p>
+                </div>
+
+                <% if(errorMessage) {%>
+                    <div class="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
+                        <%= errorMessage %>
+                    </div>
+                    <% } %>
+
+                        <!-- ===== FORM CARD ===== -->
+                        <div
+                            class="bg-white rounded-3xl shadow-xl card-hover overflow-hidden border border-rose-100/50">
+
+                            <!-- ===== FORM ===== -->
+                            <form action="/requests/create" method="POST" class="p-6 md:p-8 lg:p-10">
+
+                                <!-- ===== 2-COLUMN GRID (desktop) / single column (mobile) ===== -->
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-5 md:gap-6">
+
+                                    <!-- ===== LEFT COLUMN ===== -->
+
+                                    <!-- 1. Patient Name -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                            <i class="fa-solid fa-user text-rose-500 mr-1.5"></i>
+                                            Patient / Receiver Name <span class="text-rose-500">*</span>
+                                        </label>
+                                        <input name="patientname" type="text"
+                                            value="<%= bloodrequests.patientname || '' %>"
+                                            placeholder="e.g. Rahul Sharma"
+                                            class="form-input w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition placeholder-gray-400" />
+                                    </div>
+
+                                    <!-- 2. Blood Group -->
+                                    <div>
+                                        <label class="block text-sm 
+                                        font-semibold text-gray-700 mb-1">
+                                            <i class="fa-solid fa-droplet text-rose-500 mr-1.5"></i>
+                                            Blood Group Required <span class="text-rose-500">*</span>
+                                        </label>
+                                        <select name="bloodgroup"
+                                            class="form-select w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition text-gray-700 appearance-none cursor-pointer">
+                                            <option value="">Select Blood Group</option>
+                                            <option value="A+" <%=bloodrequests.bloodgroup==="A+" ? "selected" : "" %>>
+                                                A+
+                                            </option>
+                                            <option value="A-" <%=bloodrequests.bloodgroup==="A-" ? "selected" : "" %>>
+                                                A-
+                                            </option>
+                                            <option value="B+" <%=bloodrequests.bloodgroup==="B+" ? "selected" : "" %>>
+                                                B+
+                                            </option>
+                                            <option value="B-" <%=bloodrequests.bloodgroup==="B-" ? "selected" : "" %>>
+                                                B-
+                                            </option>
+                                            <option value="AB+" <%=bloodrequests.bloodgroup==="AB+" ? "selected" : "" %>
+                                                >
+                                                AB+
+                                            </option>
+                                            <option value="AB-" <%=bloodrequests.bloodgroup==="AB-" ? "selected" : "" %>
+                                                >
+                                                AB-
+                                            </option>
+                                            <option value="O+" <%=bloodrequests.bloodgroup==="O+" ? "selected" : "" %>>
+                                                O+
+                                            </option>
+                                            <option value="O-" <%=bloodrequests.bloodgroup==="O-" ? "selected" : "" %>>
+                                                O-
+                                            </option>
+                                        </select>
+                                    </div>
+
+                                    <!-- 3. Units Required -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                            <i class="fa-solid fa-bottle-droplet text-rose-500 mr-1.5"></i>
+                                            Units Required <span class="text-rose-500">*</span>
+                                        </label>
+                                        <input type="number" name="unitsrequired" placeholder="e.g. 2" min="1"
+                                            value="<%= bloodrequests.unitsrequired || '' %>"
+                                            class="form-input w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition placeholder-gray-400" />
+                                    </div>
+
+                                    <!-- 4. Hospital Name -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                            <i class="fa-solid fa-hospital text-rose-500 mr-1.5"></i>
+                                            Hospital Name <span class="text-rose-500">*</span>
+                                        </label>
+                                        <input type="text" name="hospitalname"
+                                            value="<%= bloodrequests.hospitalname || '' %>"
+                                            placeholder="e.g. AIIMS Hospital"
+                                            class="form-input w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition placeholder-gray-400" />
+                                    </div>
+
+                                    <!-- 5. Hospital Location -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                            <i class="fa-solid fa-location-dot text-rose-500 mr-1.5"></i>
+                                            Hospital Location <span class="text-rose-500">*</span>
+                                        </label>
+                                        <input name="hospitallocation" type="text" placeholder="City / Area"
+                                            value="<%= bloodrequests.hospitallocation || '' %>"
+                                            class="form-input w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition placeholder-gray-400" />
+                                    </div>
+
+                                    <!-- 6. Contact Number -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                            <i class="fa-solid fa-phone text-rose-500 mr-1.5"></i>
+                                            Contact Number <span class="text-rose-500">*</span>
+                                        </label>
+                                        <input name="contactnumber" type="tel" placeholder="+91 XXXXX XXXXX"
+                                            value="<%= bloodrequests.contactnumber || '' %>"
+                                            class="form-input w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition placeholder-gray-400" />
+                                    </div>
+
+                                    <!-- 7. Required Date -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                            <i class="fa-solid fa-calendar text-rose-500 mr-1.5"></i>
+                                            Required Date <span class="text-rose-500">*</span>
+                                        </label>
+                                        <input type="date" name="requireddate"
+                                            value="<%= bloodrequests.requireddate || '' %>"
+                                            class="form-input w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition text-gray-700" />
+                                    </div>
+
+                                    <!-- 8. Emergency Level (dropdown + visual badge preview) -->
+                                    <div>
+                                        <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                            <i class="fa-solid fa-triangle-exclamation text-rose-500 mr-1.5"></i>
+                                            Emergency Level
+                                        </label>
+                                        <select name="emergencylevel"
+                                            class="form-select w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition text-gray-700 appearance-none cursor-pointer">
+                                            <option value="">Select Priority</option>
+                                            <option value="Normal" <%=bloodrequests.emergencylevel==="Normal"
+                                                ? "selected" : "" %>>
+                                                Normal
+                                            </option>
+                                            <option value="Urgent" <%=bloodrequests.emergencylevel==="Urgent"
+                                                ? "selected" : "" %>>
+                                                Urgent
+                                            </option>
+                                            <option value="Citical" <%=bloodrequests.emergencylevel==="Critical"
+                                                ? "selected" : "" %>>
+                                                Critical
+                                            </option>
+                                        </select>
+
+                                        <!-- Visual badge preview (future-ready) -->
+                                        <div class="mt-2.5 flex items-center gap-3 flex-wrap">
+                                            <span class="text-xs text-gray-400 font-medium">Priority badge:</span>
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-700 border border-emerald-200/60">
+                                                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                                                Normal
+                                            </span>
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 border border-amber-200/60">
+                                                <span class="w-2 h-2 rounded-full bg-amber-500"></span>
+                                                Urgent
+                                            </span>
+                                            <span
+                                                class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-rose-100 text-rose-700 border border-rose-200/60">
+                                                <span class="w-2 h-2 rounded-full bg-rose-500"></span>
+                                                Critical
+                                            </span>
+                                        </div>
+                                        <p class="text-[11px] text-gray-400 mt-1.5">
+                                            <i class="fa-regular fa-circle-check text-rose-300 mr-1"></i>
+                                            Select from dropdown — visual badges shown for reference
+                                        </p>
+                                    </div>
+
+                                </div>
+                                <!-- ===== END 2-COLUMN GRID ===== -->
+
+                                <!-- ===== REQUEST TYPE (radio buttons - full width) ===== -->
+                                <div class="mt-6 pt-1 border-t border-gray-100/80">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-2.5">
+                                        <i class="fa-solid fa-clipboard-list text-rose-500 mr-1.5"></i>
+                                        Request Type <span class="text-gray-400 font-normal text-xs">(optional)</span>
+                                    </label>
+
+                                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                                        <!-- Option 1: Patient Treatment -->
+                                        <label
+                                            class="flex items-center gap-2.5 p-3 rounded-xl border border-gray-200 bg-gray-50/40 hover:bg-rose-50/40 hover:border-rose-200/60 transition cursor-pointer has-[:checked]:bg-rose-50/70 has-[:checked]:border-rose-300 has-[:checked]:shadow-sm">
+                                            <input type="radio" name="requestType"
+                                                class="w-4 h-4 text-rose-500 border-gray-300 focus:ring-rose-400 focus:ring-offset-0 accent-rose-500"
+                                                value="treatment" <%=bloodrequests.requestType==="treatment" ? "checked"
+                                                : "" %>/>
+                                            <span class="text-sm font-medium text-gray-700"> Patient Treatment</span>
+                                        </label>
+                                        <!-- Option 2: Surgery -->
+                                        <label
+                                            class="flex items-center gap-2.5 p-3 rounded-xl border border-gray-200 bg-gray-50/40 hover:bg-rose-50/40 hover:border-rose-200/60 transition cursor-pointer has-[:checked]:bg-rose-50/70 has-[:checked]:border-rose-300 has-[:checked]:shadow-sm">
+                                            <input type="radio" name="requestType"
+                                                class="w-4 h-4 text-rose-500 border-gray-300 focus:ring-rose-400 focus:ring-offset-0 accent-rose-500"
+                                                value="surgery" <%=bloodrequests.requestType==="surgery" ? "checked"
+                                                : "" %> />
+                                            <span class="text-sm font-medium text-gray-700"> Surgery</span>
+                                        </label>
+                                        <!-- Option 3: Accident/Emergency -->
+                                        <label
+                                            class="flex items-center gap-2.5 p-3 rounded-xl border border-gray-200 bg-gray-50/40 hover:bg-rose-50/40 hover:border-rose-200/60 transition cursor-pointer has-[:checked]:bg-rose-50/70 has-[:checked]:border-rose-300 has-[:checked]:shadow-sm">
+                                            <input type="radio" name="requestType"
+                                                class="w-4 h-4 text-rose-500 border-gray-300 focus:ring-rose-400 focus:ring-offset-0 accent-rose-500"
+                                                value="accident" <%=bloodrequests.requestType==="accident" ? "checked"
+                                                : "" %> />
+                                            <span class="text-sm font-medium text-gray-700"> Accident / Emergency</span>
+                                        </label>
+                                        <!-- Option 4: Other -->
+                                        <label
+                                            class="flex items-center gap-2.5 p-3 rounded-xl border border-gray-200 bg-gray-50/40 hover:bg-rose-50/40 hover:border-rose-200/60 transition cursor-pointer has-[:checked]:bg-rose-50/70 has-[:checked]:border-rose-300 has-[:checked]:shadow-sm">
+                                            <input type="radio" name="requestType"
+                                                class="w-4 h-4 text-rose-500 border-gray-300 focus:ring-rose-400 focus:ring-offset-0 accent-rose-500"
+                                                value="other" <%=bloodrequests.requestType==="other" ? "checked" : ""
+                                                %>/>
+                                            <span class="text-sm font-medium text-gray-700"> other</span>
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <!-- ===== ADDITIONAL MESSAGE (full width) ===== -->
+                                <div class="mt-5 md:mt-6">
+                                    <label class="block text-sm font-semibold text-gray-700 mb-1">
+                                        <i class="fa-solid fa-message text-rose-500 mr-1.5"></i>
+                                        Additional Message
+                                    </label>
+
+                                    <textarea name="message" rows="3"
+                                        placeholder="Add any additional information... e.g. Patient condition, Surgery details"
+                                        class="form-textarea w-full rounded-xl border border-gray-200 px-4 py-3 text-sm bg-gray-50/50 focus:bg-white transition placeholder-gray-400 resize-y"><%= bloodrequests.message || '' %></textarea>
+                                </div>
+
+
+                                <span class="block sm:inline text-rose-500 font-medium">Please provide accurate
+                                    information. Wrong requests may delay help for someone in need.</span>
+                                <!-- ===== SUBMIT BUTTON ===== -->
+                                <div class="mt-7">
+                                    <button type="submit"
+                                        class="w-full bg-gradient-to-r from-rose-600 to-rose-700 hover:from-rose-700 hover:to-rose-800 text-white font-bold py-3.5 px-6 rounded-2xl shadow-lg shadow-rose-200/60 hover:shadow-rose-300/70 transition-all duration-200 text-base md:text-lg flex items-center justify-center gap-2.5">
+                                        <i class="fa-solid fa-droplet"></i>
+                                        Submit Blood Request
+                                        <i class="fa-solid fa-arrow-right text-sm opacity-70"></i>
+                                    </button>
+                                </div>
+
+                            </form>
+
+                            <!-- ===== EXTRA INFO BOX (below form, inside card) ===== -->
+                            <div
+                                class="bg-rose-50/70 px-6 md:px-8 lg:px-10 py-5 border-t border-rose-100/60 flex items-center gap-4 flex-wrap">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-rose-500 text-xl">
+                                        <i class="fa-solid fa-heart"></i>
+                                    </span>
+                                    <span class="font-semibold text-rose-700 text-sm md:text-base">Need Help?</span>
+                                </div>
+                                <p class="text-gray-600 text-sm md:text-base flex-1 min-w-[180px]">
+                                    Your request will be shared with available donors.
+                                    <span class="block sm:inline text-rose-500 font-medium">Every drop can save a
+                                        life.</span>
+                                </p>
+                                <span class="text-rose-300 text-2xl hidden sm:inline">
+                                    <i class="fa-solid fa-hand-holding-heart"></i>
+                                </span>
+                            </div>
+
+                        </div>
+                        <!-- ===== END FORM CARD ===== -->
+
+                        <!-- ===== FOOTER NOTE ===== -->
+                        <div class="text-center mt-6 text-xs text-gray-400 flex justify-center items-center gap-2">
+                            <i class="fa-regular fa-circle-check text-rose-300"></i>
+                            <span>All fields marked with <span class="text-rose-500">*</span> are required</span>
+                        </div>
+
+            </div>
+            <!-- ===== END MAIN CONTAINER ===== -->
+
+        </div>
+        <!-- ===== END PAGE WRAPPER ===== -->
+
+
+
+        <%- include("../partials/footer") %>

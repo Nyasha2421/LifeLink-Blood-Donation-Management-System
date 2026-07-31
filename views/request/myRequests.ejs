@@ -1,0 +1,122 @@
+<%- include("../partials/head") %>
+  <%- include("../partials/navbar") %>
+
+
+
+
+    <% if(requests.length> 0) { %>
+
+      <section class="min-h-screen bg-gray-100 py-10">
+        <div class="max-w-5xl mx-auto px-4">
+
+          <h1 class="text-3xl font-bold text-center text-red-600 mb-8">
+            My Blood Requests
+          </h1>
+
+          <% requests.forEach((request)=> { %>
+
+            <div class="bg-white rounded-2xl shadow-lg p-6 mb-6 border-l-4 border-red-500">
+
+              <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold text-gray-800">
+                  <%= request.patientname %>
+                </h2>
+
+                <span class="bg-red-100 text-red-600 px-3 py-1 rounded-full text-sm font-semibold">
+                  <%= request.bloodgroup %>
+                </span>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-4 text-gray-700">
+
+                <p><strong>Units Required:</strong>
+                  <%= request.unitsrequired %>
+                </p>
+
+                <p><strong>Hospital:</strong>
+                  <%= request.hospitalname %>
+                </p>
+
+                <p><strong>Location:</strong>
+                  <%= request.hospitallocation %>
+                </p>
+
+                <p><strong>Contact:</strong>
+                  <%= request.contactnumber %>
+                </p>
+
+                <p><strong>Required Date:</strong>
+                  <%= request.requireddate.toLocaleDateString() %>
+                </p>
+
+                <p>
+                  <strong>Priority:</strong>
+
+                  <span class="
+            <%= request.emergencylevel === 'Critical'
+                ? 'text-red-600 font-bold'
+                : request.emergencylevel === 'Urgent'
+                ? 'text-orange-500 font-bold'
+                : 'text-green-600 font-bold' %>">
+
+                    <%= request.emergencylevel %>
+
+                  </span>
+
+                </p>
+
+                <p><strong>Request Type:</strong>
+                  <%= request.requestType %>
+                </p>
+
+              </div>
+
+              <div class="mt-4">
+                <p class="font-semibold text-gray-800 mb-1">Additional Message</p>
+
+                <div class="bg-gray-100 rounded-lg p-3 text-gray-700">
+                  <%= request.message %>
+                </div>
+              </div>
+              <div class="mt-6 text-right">
+                <a href="/requests/delete/<%= request._id %>"
+                  class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700">Delete Request</a>
+              </div>
+
+            </div>
+
+            <% }) %>
+
+        </div>
+      </section>
+
+      <% } else { %>
+
+        <div class="text-center py-16">
+
+          <div class="text-5xl mb-4">
+            🩸
+          </div>
+
+          <h2 class="text-2xl font-bold text-gray-800 mb-2">
+            You have no blood requests
+          </h2>
+
+          <p class="text-gray-500 mb-6">
+            You haven't created any blood request yet.
+            Create a request if you need blood assistance.
+          </p>
+
+          <a href="/requests/create"
+            class="inline-block bg-red-600 text-white px-6 py-3 rounded-xl font-semibold hover:bg-red-700 transition">
+            Create Blood Request
+          </a>
+
+        </div>
+
+        <% } %>
+
+
+
+
+          <%- include("../partials/footer") %>

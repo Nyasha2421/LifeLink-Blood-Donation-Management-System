@@ -1,0 +1,41 @@
+<!--  NAVBAR  -->
+<nav class="bg-white shadow-md border-b border-gray-200 sticky top-0 z-50">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo -->
+      <div class="flex items-center gap-2">
+        <span class="text-2xl font-bold text-rose-600">LifeLink</span>
+      </div>
+      <!-- Nav Links -->
+      <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-700">
+        <a href="/" class="hover:text-rose-600 transition">Home</a>
+        <a href="/about" class="hover:text-rose-600 transition">About</a>
+        <a href="/contact" class="hover:text-rose-600 transition">Contact</a>
+
+        <% if(!isLoggedIn) { %>
+
+
+          <a href="/login" class="bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition">Log in</a>
+
+          <a href="/register"
+            class=" bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition">Register</a>
+          <% } else { %>
+            <a href="/donors" class="hover:text-rose-600 transition">Donors</a>
+            <a href="/dashboard" class="hover:text-rose-600 transition">Dashboard</a>
+            <a href="/requests/create" class="hover:text-rose-600 transition">Blood Requests</a>
+            <a href="/requests/my" class="hover:text-rose-600 transition">My Requests</a>
+            <a href="/become-donor" class="text-rose-600 font-semibold">Become a Donor</a>
+            <a href="/logout"
+              class=" bg-rose-600 text-white px-4 py-2 rounded-lg hover:bg-rose-700 transition">Logout</a>
+
+            <% } %>
+      </div>
+      <!-- Mobile menu button -->
+      <button class="md:hidden text-gray-600">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</nav>
