@@ -66,7 +66,7 @@ app.use((err, req, res, next) => {
 });
 
 //Server Port
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 //Connect Database & Start Server
 mongoose
